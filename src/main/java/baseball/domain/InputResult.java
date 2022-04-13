@@ -10,14 +10,14 @@ public class InputResult {
     }
 
     public Boolean isSuccess() {
-        return false;
+        return strikes == 3;
     }
 
     public Integer getStrikes() {
-        return -1;
+        return strikes;
     }
 
     public Integer getBalls() {
-        return -1;
+        return balls;
     }
 }
