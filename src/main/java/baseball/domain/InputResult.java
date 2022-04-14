@@ -1,5 +1,7 @@
 package baseball.domain;
 
+import baseball.view.*;
+
 public class InputResult {
     public Integer strikes;
     public Integer balls;
@@ -19,5 +21,14 @@ public class InputResult {
 
     public Integer getBalls() {
         return balls;
+    }
+
+    public ResultPrinter getResultPrinter() {
+        return new ResultPrinter(this) {
+            @Override
+            public void show() {
+                System.out.println("TEST");
+            }
+        };
     }
 }
