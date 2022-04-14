@@ -15,7 +15,7 @@ public class Game {
         this.answer = input;
     }
 
-    void validateInput(String input) {
+    public void validateInput(String input) {
         validateInputLength(input);
         validateInputType(input);
         validateInputDuplicate(input);
@@ -41,7 +41,7 @@ public class Game {
         }
     }
 
-    InputResult calculate(String input) {
+    public InputResult calculate(String input) {
         validateInput(input);
         int strikes = calculateStrikes(input);
         int balls = calculateBalls(input);
