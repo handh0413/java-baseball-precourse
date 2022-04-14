@@ -1,6 +1,19 @@
 package baseball.domain;
 
 public class Game {
+    private String answer;
+
+    public Game() { }
+
+    public Game(String input) {
+        validateInput(input);
+        this.answer = input;
+    }
+
+    public void setAnswer(String input) {
+        validateInput(input);
+        this.answer = input;
+    }
 
     void validateInput(String input) {
         validateInputLength(input);
@@ -26,6 +39,39 @@ public class Game {
             || input.charAt(0) == input.charAt(2)) {
             throw new IllegalArgumentException("입력값(중복)에 문제가 있습니다.");
         }
+    }
+
+    InputResult calculate(String input) {
+        validateInput(input);
+        int strikes = calculateStrikes(input);
+        int balls = calculateBalls(input);
+        return new InputResult(strikes, balls);
+    }
+
+    int calculateStrikes(String input) {
+        int strikes = 0;
+        for (int i = 0; i < answer.length(); i++) {
+            strikes += compareForStrike(input, i);
+        }
+        return strikes;
+    }
+
+    int compareForStrike(String input, int index) {
+        return answer.charAt(index) == input.charAt(index) ? 1 : 0;
+    }
+
+    int calculateBalls(String input) {
+        int balls = 0;
+        for (int i = 0; i < answer.length(); i++) {
+            balls += compareForBall(input, i);
+        }
+        return balls;
+    }
+
+    int compareForBall(String input, int index) {
+        boolean condition1 = answer.charAt(index) != input.charAt(index);
+        boolean condition2 = answer.indexOf(input.charAt(index)) != -1;
+        return condition1 && condition2 ? 1 : 0;
     }
 
 }
