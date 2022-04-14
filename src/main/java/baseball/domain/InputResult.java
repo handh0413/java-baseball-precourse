@@ -15,6 +15,18 @@ public class InputResult {
         return strikes == 3;
     }
 
+    public Boolean isOnlyBalls() {
+        return balls > 0 && strikes == 0;
+    }
+
+    public Boolean isOnlyStrikes() {
+        return strikes > 0 && balls == 0;
+    }
+
+    public Boolean isBothStrikesAndBalls() {
+        return strikes > 0 && balls > 0;
+    }
+
     public Integer getStrikes() {
         return strikes;
     }
@@ -24,11 +36,15 @@ public class InputResult {
     }
 
     public ResultPrinter getResultPrinter() {
-        return new ResultPrinter(this) {
-            @Override
-            public void show() {
-                System.out.println("TEST");
-            }
-        };
+        if (isBothStrikesAndBalls()) {
+            return new ResultPrinterStrikeAndBall(this);
+        }
+        if (isOnlyStrikes()) {
+            return new ResultPrinterStrike(this);
+        }
+        if (isOnlyBalls()) {
+            return new ResultPrinterBall(this);
+        }
+        return new ResultPrinterNothing(this);
     }
 }
