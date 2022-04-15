@@ -2,6 +2,7 @@ package baseball.controller;
 
 import baseball.domain.Game;
 import baseball.domain.InputResult;
+import baseball.view.ResultPrinter;
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 
@@ -14,15 +15,20 @@ public class GameController {
         this.game = game;
     }
 
-    public void initAnswer() {
+    public void play() {
         game.setAnswer(makeAnswer());
+        while (true) {
+            String userInput = readInput();
+            InputResult result = game.calculate(userInput);
+            ResultPrinter printer = result.getResultPrinter();
+            printer.show();
+            if (isGameEnd(result)) {
+                break;
+            }
+        }
     }
 
-    public InputResult calculate(String input) {
-        return game.calculate(input);
-    }
-
-    public String readInput() {
+    String readInput() {
         System.out.print("숫자를 입력해주세요: ");
         return Console.readLine();
     }
@@ -54,7 +60,7 @@ public class GameController {
         }
 
         if (CONTINUE.equals(userInput)) {
-            initAnswer();
+            game.setAnswer(makeAnswer());
         }
 
         return false;
