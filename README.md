@@ -8,6 +8,7 @@
 * 사용자 입력을 처리한 결과를 저장하는 InputResult 클래스를 구현한다.
 * 사용자 입력 결과를 보여주는 ResultPrint 클래스를 구현한다.
 * 사용자 입력을 처리하고 결과를 보여주는 GameController 클래스를 구현한다.
+* 숫자 야구 게임을 진행하는 Application 클래스를 구현한다.
 
 ## 과제 제출 과정
 * [과제 제출 방법](https://github.com/next-step/nextstep-docs/tree/master/precourse)
