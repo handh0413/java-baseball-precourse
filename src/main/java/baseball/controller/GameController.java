@@ -10,27 +10,69 @@ public class GameController {
     private static final String CONTINUE = "1";
     private static final String STOP = "2";
     private Game game;
+    private boolean playing;
 
     public GameController(Game game) {
         this.game = game;
     }
 
     public void play() {
-        game.setAnswer(makeAnswer());
-        while (true) {
+        initGame();
+        while (isPlaying()) {
             String userInput = readInput();
-            InputResult result = game.calculate(userInput);
-            ResultPrinter printer = result.getResultPrinter();
-            printer.show();
-            if (isGameEnd(result)) {
-                break;
-            }
+            InputResult result = validateUserInputForBaseball(userInput);
+            validateResult(result);
         }
+    }
+
+    private void initGame() {
+        game.setAnswer(makeAnswer());
+        setPlaying(true);
     }
 
     String readInput() {
         System.out.print("숫자를 입력해주세요: ");
         return Console.readLine();
+    }
+
+    private InputResult validateUserInputForBaseball(String userInput) {
+        InputResult result = game.calculate(userInput);
+        ResultPrinter printer = result.getResultPrinter();
+        printer.show();
+        return result;
+    }
+
+    void validateResult(InputResult result) {
+        String userInput = "";
+        if (result.isSuccess()) {
+            userInput = getUserFinalInput();
+            validateUserInputForStopOrContinue(userInput);
+        }
+        processStopOrContinue(userInput);
+    }
+
+    String getUserFinalInput() {
+        String userInput;
+        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+        userInput = Console.readLine();
+        return userInput;
+    }
+
+    void validateUserInputForStopOrContinue(String userInput) {
+        if (!"1".equals(userInput) && !"2".equals(userInput)) {
+            throw new IllegalArgumentException("입력값(1 or 2)에 문제가 있습니다.");
+        }
+    }
+
+    void processStopOrContinue(String userInput) {
+        if (STOP.equals(userInput)) {
+            setPlaying(false);
+        }
+
+        if (CONTINUE.equals(userInput)) {
+            game.setAnswer(makeAnswer());
+        }
     }
 
     public String makeAnswer() {
@@ -49,29 +91,12 @@ public class GameController {
         return number.concat(digit);
     }
 
-    public boolean isGameEnd(InputResult result) {
-        String userInput = "";
-        if (result.isSuccess()) {
-            userInput = getUserFinalInput();
-        }
-
-        if (STOP.equals(userInput)) {
-            return true;
-        }
-
-        if (CONTINUE.equals(userInput)) {
-            game.setAnswer(makeAnswer());
-        }
-
-        return false;
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 
-    String getUserFinalInput() {
-        String userInput;
-        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
-        userInput = Console.readLine();
-        return userInput;
+    public boolean isPlaying() {
+        return playing;
     }
 
 }
