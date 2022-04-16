@@ -50,8 +50,8 @@ public class Game {
 
     int calculateStrikes(String input) {
         int strikes = 0;
-        for (int i = 0; i < answer.length(); i++) {
-            strikes += compareForStrike(input, i);
+        for (int index = 0; index < answer.length(); index++) {
+            strikes += compareForStrike(input, index);
         }
         return strikes;
     }
@@ -62,8 +62,8 @@ public class Game {
 
     int calculateBalls(String input) {
         int balls = 0;
-        for (int i = 0; i < answer.length(); i++) {
-            balls += compareForBall(input, i);
+        for (int index = 0; index < answer.length(); index++) {
+            balls += compareForBall(input, index);
         }
         return balls;
     }
