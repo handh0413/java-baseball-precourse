@@ -2,8 +2,8 @@ package baseball.controller;
 
 import baseball.domain.Game;
 import baseball.domain.InputResult;
+import baseball.ui.GameInput;
 import baseball.view.ResultPrinter;
-import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 
 public class GameController {
@@ -19,7 +19,7 @@ public class GameController {
     public void play() {
         initGame();
         while (isPlaying()) {
-            String userInput = readInput();
+            String userInput = GameInput.readBaseballInput();
             InputResult result = validateUserInputForBaseball(userInput);
             validateResult(result);
         }
@@ -28,11 +28,6 @@ public class GameController {
     private void initGame() {
         game.setAnswer(makeAnswer());
         setPlaying(true);
-    }
-
-    String readInput() {
-        System.out.print("숫자를 입력해주세요: ");
-        return Console.readLine();
     }
 
     private InputResult validateUserInputForBaseball(String userInput) {
@@ -45,18 +40,10 @@ public class GameController {
     void validateResult(InputResult result) {
         String userInput = "";
         if (result.isSuccess()) {
-            userInput = getUserFinalInput();
+            userInput = GameInput.readStopOrContinueInput();
             validateUserInputForStopOrContinue(userInput);
         }
         processStopOrContinue(userInput);
-    }
-
-    String getUserFinalInput() {
-        String userInput;
-        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
-        userInput = Console.readLine();
-        return userInput;
     }
 
     void validateUserInputForStopOrContinue(String userInput) {
